@@ -1,3 +1,5 @@
+// Object destructuring
+
 const person = {
     name: 'Adam',
     age: 46,
@@ -15,7 +17,7 @@ const {name: firstName = '', age} = person;
 const{city, temp: temperature} = person.location; 
 
 if (city && temperature) {
-     console.log (`It's ${temperature} in ${city}.`)
+    // console.log (`It's ${temperature} in ${city}.`)
 }
 
 const book = {
@@ -27,4 +29,15 @@ const book = {
 }
 
 const {name: publisherName = 'self published'} = book.publisher;
-console.log(publisherName)
+// console.log(publisherName)
+
+// Array destructuring
+
+//const address = ['1299 S. Juniper Street', 'Philadelphia', "Pennsylvania", '19147'];
+//const [, city = 'New York', state] = address;  // matched by position
+//console.log(`You are in ${city} ${state}.`)
+
+const item = ['Coffee (hot)', '$2.00', '$2.50', '$2.75'];
+const [beverage, ,mediumPrice] = item;
+console.log(`A ${beverage} costs ${mediumPrice}`)
+
