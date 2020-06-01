@@ -124,6 +124,24 @@ const filtersReducer = (state = filtersReducerDefaultState, action ) => {
     }
 };
 
+// timestamps (milliseconds)
+// 0 : January 1st, 1970 (unix epoch).  Positive nums are after, negative are after
+// 33400, 10, 200 - valid timestamps
+
+
+// Get visible expenses
+const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate}) => { // destructuring filters
+    return expenses.filter ((expense) => {
+        // if all of these are true then return this expense
+        // if start is Nan then true.  Else check against create
+        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
+        const endDateMatch = typeof endtDate !== 'number' || expense.createdAt <= endDate;
+        const textMatch = expense.description.toLowerCase().includes(text.toLowerCase()); 
+
+        return startDateMatch && endDateMatch && textMatch;
+    });
+};
+
 const store = createStore(
     combineReducers({ 
      expenses: expensesReducer,   // roote state name and value to handle it
@@ -132,26 +150,28 @@ const store = createStore(
     );
 
 store.subscribe(() => {
-        console.log(store.getState());
+      const state = store.getState();
+      const visibleExpenses = getVisibleExpenses(state.expenses, state.filters);
+      console.log(visibleExpenses);
 });
 
-const expenseOne = store.dispatch(addExpense({ description: 'Rent', amount: 100}));
-const expenseTwo = store.dispatch(addExpense({ description: 'Coffee', amount: 300}));
+const expenseOne = store.dispatch(addExpense({ description: 'Rent', amount: 100, createdAt: 1000}));
+const expenseTwo = store.dispatch(addExpense({ description: 'Coffee', amount: 300, createdAt: -1000}));
 
 //console.log(expenseOne);
 
-store.dispatch(removeExpense({ id: expenseOne.expense.id }));
-store.dispatch(editExpense(expenseTwo.expense.id, {amount: 500}));
+//store.dispatch(removeExpense({ id: expenseOne.expense.id }));
+//store.dispatch(editExpense(expenseTwo.expense.id, {amount: 500}));
 
 store.dispatch(setTextFilter('rent'));
-store.dispatch(setTextFilter(''));
+//store.dispatch(setTextFilter(''));
 
-store.dispatch(sortByAmount()); // amount
-store.dispatch(sortByDate());  // date
+//store.dispatch(sortByAmount()); // amount
+//store.dispatch(sortByDate());  // date
 
-store.dispatch(setStartDate(125));
-store.dispatch(setStartDate());
-store.dispatch(setEndDate(1250));
+// store.dispatch(setStartDate(900));
+//store.dispatch(setStartDate());
+//store.dispatch(setEndDate(1250));
 
 const demoState = {
     expenses: [{
@@ -170,13 +190,3 @@ const demoState = {
 
 }
 
-const user = {
-    name: 'Jen',
-    age: 24
-}
-
-console.log({
-    ...user, 
-    location: 'Philadelphia', 
-    age: 27
-})
