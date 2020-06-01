@@ -11,18 +11,27 @@ const addExpense = ({description = '', note = '', amount = 0, createdAt = 0} = {
        amount,
        createdAt
     }
-})
-;
+});
 // REMOVE_EXPENSE
 // action generator, object passed in and desctructured. If not exists then empty.
 const removeExpense = ({ id } = {}) => ({ 
     type: 'REMOVE_EXPENSE',
     id
     
-})
+});
 
 // EDIT_EXPENSE
+const editExpense = (id, updates) => ({
+    type: 'EDIT_EXPENSE', 
+    id,
+    updates
+});
+
 // SET_TEXT_FILTER
+const setTextFilter = (text = '') => ({ // set default text, return an object
+    type: 'SET_TEXT_FILTER',
+    text
+});
 // SORT_BY_DATE
 // SORT_BY_AMOUNT
 // SET_START_DATE
@@ -45,7 +54,18 @@ const expensesReducer = (state = expensesReducerDefaultState, action) => {
                 //return new array. Pass in function;
                 //if true returns true item is kept in array.  Else removed.
                 return id !== action.id 
-
+            });
+        case 'EDIT_EXPENSE' :
+            // go through every expense in the array looking for a match.  When we find, apply change
+            return state.map((expense) => {
+               if (expense.id === action.id) {
+                   return {
+                        ... expense,   // first grab existing properties
+                        ...action.updates // now apply updates
+                   }
+               } else {
+                   return expense;
+               }
             });
        default: 
           return state;
@@ -61,6 +81,11 @@ const filtersReducerDefaultState = {
 };
 const filtersReducer = (state = filtersReducerDefaultState, action ) => {
     switch(action.type){
+        case 'SET_TEXT_FILTER':
+            return {
+                ...state,  // spread out state
+                text: action.text // apply change to text
+            };
         default: 
            return state;
     }
@@ -83,6 +108,9 @@ const expenseTwo = store.dispatch(addExpense({ description: 'Coffee', amount: 30
 //console.log(expenseOne);
 
 store.dispatch(removeExpense({ id: expenseOne.expense.id }));
+store.dispatch(editExpense(expenseTwo.expense.id, {amount: 500}));
+
+store.dispatch(setTextFilter('rent'));
 
 const demoState = {
     expenses: [{
@@ -100,3 +128,14 @@ const demoState = {
     }
 
 }
+
+const user = {
+    name: 'Jen',
+    age: 24
+}
+
+console.log({
+    ...user, 
+    location: 'Philadelphia', 
+    age: 27
+})
