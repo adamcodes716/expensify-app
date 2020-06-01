@@ -33,10 +33,23 @@ const setTextFilter = (text = '') => ({ // set default text, return an object
     text
 });
 // SORT_BY_DATE
+const sortByDate = () => ({ // No need to pass anything in
+    type: 'SORT_BY_DATE'
+});
 // SORT_BY_AMOUNT
+const sortByAmount = () => ({ // No need to pass anything in
+    type: 'SORT_BY_AMOUNT'
+});
 // SET_START_DATE
+const setStartDate = (startDate) => ({ // set default start, return an object
+    type: 'SET_START_DATE',
+    startDate
+});
 // SET_END_DATE
-
+const setEndDate = (endDate) => ({ // set default start, return an object
+    type: 'SET_END_DATE',
+    endDate
+});
 
 // Expenses reducer
 const expensesReducerDefaultState = [];  // no default state
@@ -86,6 +99,26 @@ const filtersReducer = (state = filtersReducerDefaultState, action ) => {
                 ...state,  // spread out state
                 text: action.text // apply change to text
             };
+            case 'SORT_BY_AMOUNT':
+            return {
+                ...state,  // spread out state
+                sortBy: 'amount' // apply change 
+            };
+            case 'SORT_BY_DATE':
+            return {
+                ...state,  // spread out state
+                sortBy: 'date' // apply change 
+            };
+            case 'SET_START_DATE':
+            return {
+                ...state,  // spread out state
+                startDate: action.startDate // apply change 
+            };
+            case 'SET_END_DATE':
+            return {
+                ...state,  // spread out state
+                endDate: action.endDate // apply change 
+            };
         default: 
            return state;
     }
@@ -111,6 +144,14 @@ store.dispatch(removeExpense({ id: expenseOne.expense.id }));
 store.dispatch(editExpense(expenseTwo.expense.id, {amount: 500}));
 
 store.dispatch(setTextFilter('rent'));
+store.dispatch(setTextFilter(''));
+
+store.dispatch(sortByAmount()); // amount
+store.dispatch(sortByDate());  // date
+
+store.dispatch(setStartDate(125));
+store.dispatch(setStartDate());
+store.dispatch(setEndDate(1250));
 
 const demoState = {
     expenses: [{
