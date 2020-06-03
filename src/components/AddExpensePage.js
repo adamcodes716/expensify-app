@@ -1,20 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ExpenseForm from './ExpenseForm';
-import { addExpense } from '../actions/expenses'
+import { addExpense } from '../actions/expenses';
 
-const AddExpensePage= (props) => {
-    return <div>
-       <h1>Add Expense</h1>
-       <ExpenseForm 
-         onSubmit={(expense) =>{
-           props.dispatch(addExpense(expense));
-           console.log(expense);
-           props.history.push('/'); // will use routing and then not full refresh  
-         }}
-       />
-    </div>
-};
+const AddExpensePage = (props) => (
+  <div>
+    <h1>Add Expense</h1>
+    <ExpenseForm
+      onSubmit={(expense) => {
+        props.dispatch(addExpense(expense));
+        props.history.push('/');
+      }}
+    />
+  </div>
+);
 
 export default connect()(AddExpensePage);
-//export default AddExpensePage;
