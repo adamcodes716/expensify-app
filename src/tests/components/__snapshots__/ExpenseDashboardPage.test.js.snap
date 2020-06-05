@@ -2,12 +2,7 @@
 
 exports[`should render ExpenseDashboardPage correctly 1`] = `
 <div>
-  404 - 
-  <Link
-    replace={false}
-    to="/"
-  >
-    Go home
-  </Link>
+  <Connect(ExpenseListFilters) />
+  <Connect(ExpenseList) />
 </div>
 `;
