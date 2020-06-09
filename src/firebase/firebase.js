@@ -23,11 +23,22 @@ database.ref().set({
         city: 'Grand Island',
         country: 'UnitedStates'
     }
+}).then(() => {
+    console.log ('Data is saved');
+}).catch((e) => {
+    console.log ('this failed');
 });
 
-database.ref('age').set(47);
-database.ref('location/city').set('Western New York');
+// database.ref('age').set(47);
+// database.ref('location/city').set('Western New York');
 
-database.ref('attributes/height').set('5 feet 11 inches');
-database.ref('attributes/weight').set('200 lbs');
+database.ref('attributes').set({
+    height: 71,
+    weight: 200
+}).then(() => {
+    console.log('attributes are set');
+}).catch((e) => {
+    console.log('attributes failed');
+});
+
 
