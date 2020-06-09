@@ -9,11 +9,25 @@ const config = {
     messagingSenderId: "696131513943",
     appId: "1:696131513943:web:cff9ce1497701e88043d12",
     measurementId: "G-1P0WS6J3DF"
-
 };
 
 firebase.initializeApp(config);
 
-firebase.database().ref().set({
-    name:'Adam Morgan'
-})
+const database = firebase.database();
+
+database.ref().set({
+    name:'Adam Morgan',
+    age: 46,
+    isSingle: false,
+    location : {
+        city: 'Grand Island',
+        country: 'UnitedStates'
+    }
+});
+
+database.ref('age').set(47);
+database.ref('location/city').set('Western New York');
+
+database.ref('attributes/height').set('5 feet 11 inches');
+database.ref('attributes/weight').set('200 lbs');
+
