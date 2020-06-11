@@ -1,36 +1,23 @@
 import uuid from 'uuid';
 import database from '../firebase/firebase';
 
-// component calls action generator
-// action generator returns an object
-// component dispatches object
-// redux store changes
-
-// after update: 
-// component calls action generator
-// action generator returns a function
-// component dispatches function (react does not allow this directly)
-// function runs (has the ability to dispatch other actions and whateever it wants)
-
 // ADD_EXPENSE
 export const addExpense = (expense) => ({
-    type: 'ADD_EXPENSE',
-    expense
+  type: 'ADD_EXPENSE',
+  expense
 });
 
-// new addExpense write to firebase
-export const startAddExpense = (expenseData = {}) => { // pass in expense if it exists
+export const startAddExpense = (expenseData = {}) => {
   return (dispatch) => {
-    const { // destructure from expenseDAta
-      description = '',  // setting defaults if they don't exist
+    const {
+      description = '',
       note = '',
       amount = 0,
       createdAt = 0
-    } = expenseData;  // destructuring from this
-    const expense = {description, note, amount, createdAt};  // cleaner code
-    return database.ref('expenses').push(expense).then((ref) => {  // saving the data
-      //dispatch action from above so redux store changes
-      //the success 'then' gets called with a reference that we can use below
+    } = expenseData;
+    const expense = { description, note, amount, createdAt };
+
+    return database.ref('expenses').push(expense).then((ref) => {
       dispatch(addExpense({
         id: ref.key,
         ...expense
@@ -51,3 +38,11 @@ export const editExpense = (id, updates) => ({
   id,
   updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({  // expenses passed in
+  type: 'SET_EXPENSES',
+  expenses    // data
+});
+
+// export const startSetExpenses;
