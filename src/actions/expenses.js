@@ -28,7 +28,7 @@ export const startAddExpense = (expenseData = {}) => { // pass in expense if it 
       createdAt = 0
     } = expenseData;  // destructuring from this
     const expense = {description, note, amount, createdAt};  // cleaner code
-    database.ref('expenses').push(expense).then((ref) => {  // saving the data
+    return database.ref('expenses').push(expense).then((ref) => {  // saving the data
       //dispatch action from above so redux store changes
       //the success 'then' gets called with a reference that we can use below
       dispatch(addExpense({
