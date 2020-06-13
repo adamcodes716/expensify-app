@@ -1,18 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render LoginPage correctly 1`] = `
+exports[`should correctly render LoginPage 1`] = `
 <div>
-  <h1>
-    Login Page
-  </h1>
-  <input
-    autoFocus={true}
-    placeholder="User Name"
-    type="text"
-  />
-  <input
-    placeholder="Password"
-    type="text"
-  />
+  <button>
+    Login
+  </button>
 </div>
 `;
