@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import AppRouter, { history } from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import { startSetExpenses } from './actions/expenses';
-import { setTextFilter } from './actions/filters';
+import { login, logout } from './actions/auth';
 import getVisibleExpenses from './selectors/expenses';
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
@@ -33,7 +33,8 @@ ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    console.log('log in');
+    console.log('log in. ', user.uid);
+    store.dispatch(login(user.uid)); // update the store 
     store.dispatch(startSetExpenses()).then(() => {
       renderApp();
       if (history.location.pathname ==='/') { // check to see if they are on login page - just logged in
@@ -42,6 +43,7 @@ firebase.auth().onAuthStateChanged((user) => {
     });
   } else {
     console.log('log out');
+    store.dispatch(logout()); // update the store
     renderApp();
     history.push('/');
   }
