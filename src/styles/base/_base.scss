@@ -1,3 +1,8 @@
+* {  // universal selector
+  // by default it is content-box.  Removes space from border and spacing and gives to content
+  box-sizing: border-box; 
+}
+
 html {
   font-size: 62.5%;
 }
